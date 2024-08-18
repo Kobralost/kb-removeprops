@@ -560,16 +560,16 @@ else
 	-- [[ Save removed prop on the database ]]
 	function KBRemoveProps.SaveEntRemoved(ent, ply)
 		if not IsValid(ent) then return end
-
+		
 		local class = ent:GetClass()
 		local model = ent:GetModel()
 		local pos = ent:GetPos()
 		local ang = ent:GetAngles()
 		local mapCreationId = ent:MapCreationID()
-		local color = ent:GetColor()
-		local material = ent:GetMaterial()
-		local scale = ent:GetModelScale()
-		local entSkin = ent:GetSkin()
+		local color = ent:GetColor() or color_white
+		local material = ent:GetMaterial() or ""
+		local scale = ent:GetModelScale() or 1
+		local entSkin = ent:GetSkin() or 1
 
 		if mapCreationId == -1 then
 			return
