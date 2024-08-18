@@ -127,17 +127,17 @@ if CLIENT then
 		})
 	end
 
-	local function createClientSideModel(mapCreationId, model, pos, ang, material, modelScale, color, removeTime)
+	local function createClientSideModel(mapCreationId, model, pos, ang, material, modelScale, color, skinEnt, removeTime)
 		if not isstring(model) or not isvector(pos) or not isangle(ang) or not isstring(material) or not isnumber(modelScale) or not isnumber(removeTime) or not IsColor(color) then return end
 		if timer.Exists("KBRemoveProps:RemoveClientSideModel:"..mapCreationId) then return end
 
-		print(ang)
 		local model = ClientsideModel(model)
 		model:SetPos(pos)
 		model:SetAngles(ang)
 		model:SetMaterial(material)
 		model:SetModelScale(modelScale)
 		model:SetColor(color)
+		model:SetSkin(skinEnt)
 
 		KBRemoveProps.PropsToShow[mapCreationId] = pos
 	
@@ -152,6 +152,7 @@ if CLIENT then
 	end
 
 	local function reloadRemovedEnt()
+		if not istable(KBRemoveProps.PropsRemoved) then return end
 		if not IsValid(KBRemovePropsScroll) then return end
 
 		KBRemovePropsScroll:Clear()
@@ -200,7 +201,7 @@ if CLIENT then
 				self:SetColor(ColorAlpha(KBRemoveProps.Constants["white"], lerpColorName))
 			end
 			previewEntity.DoClick = function()
-				createClientSideModel(v.mapCreationId, v.model, v.pos, v.ang, v.material, v.scale, v.color, 10)
+				createClientSideModel(v.mapCreationId, v.model, v.pos, v.ang, v.material, v.scale, v.color, v.skin, 10)
 
 				net.Start("KBRemoveProps:MainNet")
 					net.WriteUInt(1, 4)
@@ -355,8 +356,6 @@ if CLIENT then
 		KBRemoveProps.ScrW, KBRemoveProps.ScrH = ScrW(), ScrH()
 	
 		loadFonts()
-
-		print("[KBRemoveProps] Initialize all variables, fonts and folders")
 		hook.Remove("HUDPaint", "KBRemoveProps:HUDPaint:Initialize")
 	end)
 
@@ -428,8 +427,18 @@ if CLIENT then
 			reloadRemovedEnt()
 		elseif uInt == 3 then
 			local mapCreationId = net.ReadUInt(32)
-			KBRemoveProps.PropsRemoved[mapCreationId] = nil
 
+			if timer.Exists("KBRemoveProps:RemoveClientSideModel:"..mapCreationId) then 
+				timer.Remove("KBRemoveProps:RemoveClientSideModel:"..mapCreationId)
+			end
+
+			local clientProp = KBRemoveProps.PropsToShow[mapCreationId]
+
+			if IsValid(clientProp) then
+				clientProp:Remove()
+			end
+
+			KBRemoveProps.PropsRemoved[mapCreationId] = nil
 			reloadRemovedEnt()
 		end
 	end)
@@ -740,7 +749,7 @@ else
 		local trace = owner:GetEyeTrace()
 		local ent = trace.Entity
 
-		if not IsValid(ent) or ent:IsPlayer() or ent:IsVehicle() then return end
+		if not IsValid(ent) or ent:IsPlayer() or ent:IsVehicle() or ent:IsWorld() then return end
 
 		KBRemoveProps.SaveEntRemoved(ent, owner)
 	end
