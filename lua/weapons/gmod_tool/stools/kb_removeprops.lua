@@ -567,7 +567,7 @@ else
 		local ang = ent:GetAngles()
 		local mapCreationId = ent:MapCreationID()
 		local color = ent:GetColor()
-		local material = ent:GetMaterials()
+		local material = ent:GetMaterial()
 		local scale = ent:GetModelScale()
 		local entSkin = ent:GetSkin()
 
