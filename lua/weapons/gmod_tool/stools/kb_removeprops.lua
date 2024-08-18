@@ -26,7 +26,7 @@ KBRemoveProps.Constants = {
 	["grey"] = Color(150, 150, 150),
 	["grey30"] = Color(150, 150, 150, 30),
 	["red"] = Color(238, 82, 83),
-	["toolgun"] = Material("materials/removeprops_background.png", "$ignorez"),
+	["toolgun"] = Material("kb_tools/removeprops_background.png", "$ignorez"),
 	["background"] = Material("kb_tools/toolBackground.png", "smooth"),
 }
 
