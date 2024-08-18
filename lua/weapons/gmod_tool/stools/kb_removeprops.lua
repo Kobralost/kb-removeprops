@@ -288,7 +288,7 @@ if CLIENT then
 		KBRemovePropsScroll.Paint = function(self, w, h) 
 			self:SetSize(mainPanel:GetWide(), KBRemoveProps.ScrH*0.4)
 
-			draw.RoundedBox(0, 0, 0, w, h, KBDuplicator.Constants["white5"])
+			draw.RoundedBox(0, 0, 0, w, h, KBRemoveProps.Constants["white5"])
 		end
 
 		local scrollBar = KBRemovePropsScroll:GetVBar()
