@@ -458,7 +458,7 @@ else
 			return print("[KBRemoveProps] Cannot require mysqloo module :\n"..requireError)
 		end
 
-		mysqlDB = mysqloo.connect(KBRemoveProps.MysqlInformations["host"], KBRemoveProps.MysqlInformations["username"], KBRemoveProps.MysqlInformations["password"], KBRemoveProps.MysqlInformations["database"], {["port"] = KBRemoveProps.MysqlInformations["port"]})
+		mysqlDB = mysqloo.connect(KBRemoveProps.MysqlInformations["host"], KBRemoveProps.MysqlInformations["username"], KBRemoveProps.MysqlInformations["password"], KBRemoveProps.MysqlInformations["database"], KBRemoveProps.MysqlInformations["port"])
 
 		function mysqlDB:onConnected()  
 			print("[KBRemoveProps] Succesfuly connected to the mysql database !")
